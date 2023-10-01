@@ -3,15 +3,15 @@ const router = express.Router();
 
 const ctrl = require("../../controllers/contacts");
 const validatorBody = require("../../middlewares");
-const schema = require("../../schemas/contacts-schema");
+const addSchema = require("../../schemas/contacts");
 
 router.get("/", ctrl.getAll);
 
 router.get("/:contactId", ctrl.getContactById);
 
-router.post("/", validatorBody(schema), ctrl.addContact);
+router.post("/", validatorBody(addSchema), ctrl.addContact);
 
-router.put("/:contactId", validatorBody(schema), ctrl.updateContact);
+router.put("/:contactId", validatorBody(addSchema), ctrl.updateContact);
 
 router.delete("/:contactId", ctrl.removeContact);
 
