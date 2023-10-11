@@ -1,11 +1,23 @@
 const { Contact } = require("../models/contact");
 
-const { HttpError } = require("../helpers/");
-
-const { ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers/index");
 
 const getAll = async (req, res) => {
-  const result = await Contact.find();
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 5, favorite } = req.query;
+  const skip = (page - 1) * limit;
+  const queryConditions = { owner };
+
+  console.log(favorite);
+  if (favorite !== undefined) {
+    queryConditions.favorite = favorite;
+  }
+
+  console.log(queryConditions);
+  const result = await Contact.find(queryConditions, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).populate("owner", "email");
   res.json(result);
 };
 
@@ -19,7 +31,14 @@ const getContactById = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const result = await Contact.create(req.body);
+  const { name } = req.body;
+  const { _id: owner } = req.user;
+  const contact = await Contact.findOne({ name });
+
+  if (contact) {
+    throw HttpError(409, "Name in use");
+  }
+  const result = await Contact.create({ ...req.body, owner });
   res.status(201).json(result);
 };
 
