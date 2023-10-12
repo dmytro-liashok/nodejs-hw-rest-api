@@ -33,7 +33,7 @@ userSchema.post("save", handleSaveError);
 const registerSchema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-});
+});  
 
 const loginSchema = Joi.object({
   password: Joi.string().min(4).required(),

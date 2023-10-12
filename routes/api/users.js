@@ -16,7 +16,7 @@ router.get("/current", authenticate, ctrl.getCurrent);
 
 router.patch(
   "/",
-  authenticate,
+  authenticate, 
   validatorBody(schemas.subscriptionSchema),
   ctrl.changeSubscription
 );
