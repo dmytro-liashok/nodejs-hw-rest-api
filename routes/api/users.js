@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { schemas } = require("../../models/users");
-const ctrl = require("../../controllers/users");
+const { schemas } = require("../../models/user");
+const ctrl = require("../../controllers/auth");
 
 const { validatorBody, authenticate } = require("../../middlewares");
 

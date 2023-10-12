@@ -8,12 +8,10 @@ const getAll = async (req, res) => {
   const skip = (page - 1) * limit;
   const queryConditions = { owner };
 
-  console.log(favorite);
   if (favorite !== undefined) {
     queryConditions.favorite = favorite;
   }
 
-  console.log(queryConditions);
   const result = await Contact.find(queryConditions, "-createdAt -updatedAt", {
     skip,
     limit,
