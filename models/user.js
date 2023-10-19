@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const { handleSaveError, runValidatorsAtUpdate } = require("./hooks");
+const { handleSaveError } = require("./hooks");
 
 const emailRegexp = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -23,6 +23,7 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
+    avatarURL: { type: String },
     token: { type: String },
   },
   { versionKey: false, timestamps: true }
@@ -33,7 +34,7 @@ userSchema.post("save", handleSaveError);
 const registerSchema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-});  
+});
 
 const loginSchema = Joi.object({
   password: Joi.string().min(4).required(),
