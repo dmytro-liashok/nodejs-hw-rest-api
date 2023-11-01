@@ -8,6 +8,10 @@ const { validatorBody, authenticate, upload } = require("../../middlewares");
 
 router.post("/register", validatorBody(schemas.registerSchema), ctrl.register);
 
+router.get("/verify/:verificationToken", ctrl.verify);
+
+router.post("/verify", validatorBody(schemas.userEmailSchema), ctrl.resendVerifyEmail);
+
 router.post("/login", validatorBody(schemas.loginSchema), ctrl.login);
 
 router.post("/logout", authenticate, ctrl.logout);
@@ -28,4 +32,4 @@ router.patch(
   ctrl.changeAvatar
 );
 
-module.exports = router; 
+module.exports = router;
